@@ -1,13 +1,14 @@
 const WebSocket = require('ws');
 // console.log(WebSocket);
 
-const ws = new WebSocket('ws://localhost:3000/?page=test');
+// const ws = new WebSocket('ws://localhost:3000/?role=ws&uid=xxx');
+const ws = new WebSocket('ws://localhost:3000/socket.io/?role=ws&uid=xxx');
 
 ws.on('error', console.error);
 
-ws.on('open', function open() {
+ws.on('open', function open() { 
   console.log('connected');
-  ws.send(Date.now());
+  ws.send(JSON.stringify({ data: 123 }));
 });
 
 ws.on('close', function close() {
@@ -15,11 +16,5 @@ ws.on('close', function close() {
 });
 
 ws.on('message', function message(data) {
-  //console.log(`Round-trip time: ${Date.now() - data} ms`);
-
   console.log(data);
-
-  setTimeout(function timeout() {
-    ws.send(Date.now());
-  }, 500);
 });
